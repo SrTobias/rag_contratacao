@@ -1,0 +1,147 @@
+id: programa_procedimento
+nome: Programa do Procedimento
+descricao: Programa do concurso / do procedimento (concurso público, concurso limitado, negociação, diálogo concorrencial, parceria para a inovação).
+numeracao: artigo
+procedimentos: [concurso_publico, concurso_publico_urgente, concurso_limitado, negociacao, dialogo_concorrencial, parceria_inovacao]
+campos_extra:
+  - {id: prazo_propostas, rotulo: "Prazo para apresentação das propostas"}
+  - {id: caucao, rotulo: "Caução (exigida? percentagem)"}
+  - {id: documentos_proposta, rotulo: "Documentos específicos a exigir na proposta", tipo: textarea}
+  - {id: modelo_avaliacao, rotulo: "Modelo de avaliação (escalas de pontuação, fórmulas)", tipo: textarea}
+instrucoes_gerais: |
+  O programa do procedimento define os termos a que obedece a fase de formação do contrato até à sua
+  celebração. Adapta a terminologia ao procedimento indicado (ex.: "programa do concurso" no concurso público).
+secoes:
+  - id: identificacao
+    titulo: Identificação e objeto do procedimento
+    instrucoes: Identifica o procedimento, a sua designação, o objeto do contrato, o CPV e os lotes, se existirem.
+    pesquisa: identificação do procedimento objeto programa do concurso
+    base_legal: [41, 132]
+  - id: entidade
+    titulo: Entidade adjudicante e órgão que tomou a decisão de contratar
+    instrucoes: Identifica a entidade adjudicante (designação, morada, contactos) e o órgão que tomou a decisão de contratar, com a data da decisão.
+    pesquisa: entidade adjudicante órgão decisão de contratar
+    base_legal: [132]
+  - id: juri
+    titulo: Júri do procedimento
+    instrucoes: Regula a composição, funcionamento e competências do júri, incluindo eventual delegação de competências.
+    pesquisa: júri funcionamento competência
+    base_legal: [67, 68, 69]
+  - id: pecas
+    titulo: Peças do procedimento e sua consulta
+    instrucoes: Identifica as peças do procedimento e o local/plataforma onde podem ser consultadas.
+    pesquisa: peças do procedimento consulta plataforma eletrónica
+    base_legal: [40, 133]
+  - id: esclarecimentos
+    titulo: Esclarecimentos, retificação e erros e omissões das peças
+    instrucoes: Regula prazos e modo de pedido e prestação de esclarecimentos, retificações e listas de erros e omissões.
+    pesquisa: esclarecimentos retificação erros e omissões prazo
+    base_legal: [50]
+  - id: concorrentes
+    titulo: Concorrentes e agrupamentos
+    instrucoes: Define quem pode ser concorrente e as regras aplicáveis a agrupamentos.
+    pesquisa: concorrente agrupamento de concorrentes
+    base_legal: [53, 54]
+  - id: qualificacao
+    titulo: Fase de qualificação e apresentação de candidaturas
+    instrucoes: Regula os requisitos mínimos de capacidade técnica e financeira, documentos da candidatura, modelo de qualificação e prazo.
+    pesquisa: candidaturas qualificação requisitos mínimos capacidade técnica financeira
+    base_legal: [164, 165, 168, 169]
+    condicao:
+      tipo_procedimento: [concurso_limitado, negociacao, dialogo_concorrencial, parceria_inovacao]
+  - id: impedimentos
+    titulo: Impedimentos
+    instrucoes: Remete para os impedimentos legais e para o modo de declaração da sua inexistência.
+    pesquisa: impedimentos declaração autossanação
+    base_legal: [55, "55-A"]
+  - id: documentos_proposta
+    titulo: Documentos que constituem a proposta
+    instrucoes: Enumera os documentos que constituem a proposta, incluindo declarações e documentos dos atributos sujeitos a avaliação.
+    pesquisa: documentos da proposta declaração anexo atributos
+    base_legal: [57]
+  - id: modo_apresentacao
+    titulo: Modo de apresentação das propostas
+    instrucoes: Regula a apresentação das propostas através da plataforma eletrónica, língua, assinatura eletrónica qualificada e classificação de documentos.
+    pesquisa: modo de apresentação das propostas plataforma eletrónica assinatura
+    base_legal: [58, 62]
+  - id: prazo_propostas
+    titulo: Prazo para apresentação das propostas
+    instrucoes: Fixa o prazo para apresentação das propostas.
+    pesquisa: prazo para apresentação das propostas prazo mínimo
+    base_legal: [135, 136]
+  - id: manutencao
+    titulo: Prazo de manutenção das propostas
+    instrucoes: Fixa o prazo da obrigação de manutenção das propostas.
+    pesquisa: prazo de manutenção das propostas
+    base_legal: [65]
+  - id: variantes
+    titulo: Propostas variantes
+    instrucoes: Indica se são admitidas propostas variantes e, em caso afirmativo, os respetivos requisitos.
+    pesquisa: propostas variantes
+    base_legal: [59]
+    opcional: true
+  - id: preco
+    titulo: Preço base e preço anormalmente baixo
+    instrucoes: Indica o preço base e as regras relativas a preço ou custo anormalmente baixo e respetiva justificação.
+    pesquisa: preço base preço anormalmente baixo justificação
+    base_legal: [47, 71]
+  - id: esclarecimentos_propostas
+    titulo: Esclarecimentos sobre as propostas
+    instrucoes: Regula os pedidos de esclarecimentos e suprimento de irregularidades das propostas pelo júri.
+    pesquisa: esclarecimentos sobre as propostas suprimento de irregularidades
+    base_legal: [72]
+  - id: exclusao
+    titulo: Análise e exclusão das propostas
+    instrucoes: Remete para as causas de exclusão das propostas e regula a análise pelo júri.
+    pesquisa: análise das propostas causas de exclusão
+    base_legal: [70, 146]
+  - id: criterio
+    titulo: Critério de adjudicação e modelo de avaliação
+    instrucoes: |
+      Define o critério de adjudicação e, se multifator, os fatores, subfatores, ponderações, escalas de
+      pontuação e expressões matemáticas. Inclui o critério de desempate.
+    pesquisa: critério de adjudicação modelo de avaliação fatores ponderação desempate
+    base_legal: [74, 75, 139]
+  - id: leilao
+    titulo: Leilão eletrónico
+    instrucoes: Regula o recurso ao leilão eletrónico, se previsto.
+    pesquisa: leilão eletrónico
+    base_legal: [140]
+    opcional: true
+  - id: negociacao
+    titulo: Fase de negociação
+    instrucoes: Regula a fase de negociação (concorrentes admitidos, aspetos a negociar, formalidades).
+    pesquisa: negociação das propostas formalidades
+    base_legal: [149, 150]
+    condicao:
+      tipo_procedimento: [negociacao, concurso_publico]
+    opcional: true
+  - id: audiencia
+    titulo: Relatório preliminar e audiência prévia
+    instrucoes: Regula a elaboração do relatório preliminar e a audiência prévia dos concorrentes.
+    pesquisa: relatório preliminar audiência prévia prazo
+    base_legal: [146, 147]
+  - id: adjudicacao
+    titulo: Relatório final e adjudicação
+    instrucoes: Regula o relatório final, a decisão de adjudicação e a respetiva notificação.
+    pesquisa: relatório final adjudicação notificação
+    base_legal: [148, 73, 76, 77]
+  - id: habilitacao
+    titulo: Documentos de habilitação
+    instrucoes: Enumera os documentos de habilitação, o prazo e modo de apresentação e as consequências da não apresentação.
+    pesquisa: documentos de habilitação prazo caducidade da adjudicação
+    base_legal: [81, 85, 86]
+  - id: caucao
+    titulo: Caução
+    instrucoes: Indica se é exigida caução, o seu valor, modo de prestação e prazo.
+    pesquisa: caução valor modo de prestação
+    base_legal: [88, 89, 90]
+  - id: minuta
+    titulo: Minuta e celebração do contrato
+    instrucoes: Regula a aprovação e aceitação da minuta do contrato e a sua celebração.
+    pesquisa: minuta do contrato aceitação celebração
+    base_legal: [98, 100, 104]
+  - id: legislacao
+    titulo: Legislação aplicável
+    instrucoes: Indica a legislação aplicável ao procedimento.
+    pesquisa: legislação aplicável Código dos Contratos Públicos

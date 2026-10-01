@@ -1,0 +1,66 @@
+id: minuta_contrato
+nome: Minuta do Contrato
+descricao: Minuta do contrato a submeter a aprovação e aceitação do adjudicatário.
+numeracao: clausula
+procedimentos: []
+campos_extra:
+  - {id: adjudicatario, rotulo: "Adjudicatário (denominação, NIPC, sede, representante)", tipo: textarea}
+  - {id: representante_entidade, rotulo: "Representante da entidade adjudicante"}
+  - {id: valor_adjudicacao, rotulo: "Valor da adjudicação (sem IVA)"}
+  - {id: data_adjudicacao, rotulo: "Data da decisão de adjudicação e de aprovação da minuta"}
+  - {id: compromisso, rotulo: "Número de compromisso / classificação orçamental"}
+  - {id: caucao, rotulo: "Caução prestada (valor, forma)"}
+instrucoes_gerais: |
+  A minuta deve respeitar o caderno de encargos e a proposta adjudicada; as cláusulas devem remeter para
+  esses documentos sempre que adequado em vez de os repetir integralmente.
+secoes:
+  - id: outorgantes
+    titulo: Outorgantes e considerandos
+    instrucoes: |
+      Identifica os outorgantes (entidade adjudicante e adjudicatário) e redige os considerandos (decisão de
+      contratar, procedimento, adjudicação, aprovação da minuta, caução, cabimento/compromisso).
+    pesquisa: outorgantes considerandos contrato
+    base_legal: [94, 96]
+  - id: objeto
+    titulo: Objeto
+    instrucoes: Define o objeto do contrato.
+    pesquisa: objeto do contrato
+    base_legal: [96]
+  - id: documentos
+    titulo: Documentos contratuais
+    instrucoes: Identifica os documentos que integram o contrato e a ordem de prevalência.
+    pesquisa: documentos integrantes do contrato prevalência
+    base_legal: [96]
+  - id: prazo
+    titulo: Prazo
+    instrucoes: Fixa o prazo de vigência / execução do contrato.
+    pesquisa: prazo de vigência
+  - id: preco
+    titulo: Preço contratual e condições de pagamento
+    instrucoes: Indica o preço contratual e remete para as condições de pagamento.
+    pesquisa: preço contratual pagamento
+    base_legal: [97, 299]
+  - id: caucao
+    titulo: Caução
+    instrucoes: Indica a caução prestada e o regime da sua liberação.
+    pesquisa: caução liberação
+    base_legal: [88, 295]
+    opcional: true
+  - id: gestor
+    titulo: Gestor do contrato
+    instrucoes: Identifica o gestor do contrato.
+    pesquisa: gestor do contrato
+    base_legal: ["290-A"]
+  - id: remissao
+    titulo: Remissão
+    instrucoes: Remete para o caderno de encargos e para a lei em tudo o que não estiver expressamente previsto.
+    pesquisa: casos omissos remissão
+  - id: foro
+    titulo: Foro competente e legislação aplicável
+    instrucoes: Indica o foro competente e a legislação aplicável.
+    pesquisa: foro competente legislação aplicável
+  - id: assinaturas
+    titulo: Disposições finais e assinaturas
+    instrucoes: Indica a forma de celebração (assinatura eletrónica qualificada), a data e os espaços para assinatura.
+    pesquisa: assinatura eletrónica contrato celebração
+    base_legal: [94]

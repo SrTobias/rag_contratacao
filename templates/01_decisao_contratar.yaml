@@ -1,0 +1,78 @@
+# Template de peça. Campos das secções:
+#   titulo, instrucoes   -> o que redigir
+#   pesquisa             -> termos adicionais para a pesquisa no índice
+#   base_legal           -> artigos do CCP carregados diretamente como contexto (VALIDAR com jurista)
+#   condicao             -> só aplicável a certos tipo_procedimento / tipo_contrato
+#   opcional             -> não selecionada por omissão
+id: decisao_contratar
+nome: Informação / Proposta de decisão de contratar
+descricao: Proposta fundamentada ao órgão competente para a decisão de contratar, escolha do procedimento e aprovação das peças.
+numeracao: seccao
+procedimentos: []
+campos_extra:
+  - {id: necessidade, rotulo: "Necessidade a satisfazer e fundamentação", tipo: textarea}
+  - {id: fundamentacao_procedimento, rotulo: "Fundamento da escolha do procedimento (valor / critério material)", tipo: textarea}
+  - {id: juri, rotulo: "Membros do júri (efetivos e suplentes)", tipo: textarea}
+  - {id: gestor_contrato, rotulo: "Gestor do contrato"}
+  - {id: cabimento, rotulo: "Classificação orçamental / cabimento / compromisso plurianual", tipo: textarea}
+instrucoes_gerais: |
+  Documento interno dirigido ao órgão competente. Termina com uma proposta de deliberação/despacho
+  com os pontos a aprovar enumerados.
+secoes:
+  - id: enquadramento
+    titulo: Enquadramento e fundamentação da necessidade
+    instrucoes: Descreve a necessidade a satisfazer e a fundamentação da decisão de contratar.
+    pesquisa: decisão de contratar fundamentação necessidade
+    base_legal: [36]
+  - id: objeto
+    titulo: Objeto e tipo de contrato
+    instrucoes: Identifica o objeto do contrato, o tipo contratual e o(s) código(s) CPV.
+    pesquisa: objeto do contrato vocabulário comum CPV
+  - id: escolha_procedimento
+    titulo: Escolha do procedimento
+    instrucoes: |
+      Fundamenta a escolha do procedimento em função do valor do contrato (critério do valor) ou, se
+      aplicável, do critério material. Indica o fundamento legal com precisão.
+    pesquisa: escolha do procedimento em função do valor critério material limiares
+    base_legal: [17, 18, 19, 20, 38]
+  - id: preco_base
+    titulo: Preço base e fundamentação
+    instrucoes: Indica o preço base e a fundamentação da sua fixação (consulta ao mercado, custos de procedimentos anteriores, etc.).
+    pesquisa: preço base fixação fundamentação
+    base_legal: [47]
+  - id: lotes
+    titulo: Divisão em lotes
+    instrucoes: Indica se o contrato é dividido em lotes; se não for, fundamenta a não divisão.
+    pesquisa: divisão em lotes fundamentação da não divisão
+    base_legal: ["46-A"]
+  - id: criterio
+    titulo: Critério de adjudicação
+    instrucoes: Indica e fundamenta o critério de adjudicação e, se multifator, os fatores, subfatores e ponderações.
+    pesquisa: critério de adjudicação proposta economicamente mais vantajosa fatores
+    base_legal: [74, 75]
+  - id: pecas
+    titulo: Peças do procedimento
+    instrucoes: Identifica as peças do procedimento a aprovar.
+    pesquisa: peças do procedimento aprovação
+    base_legal: [40]
+  - id: juri
+    titulo: Designação do júri
+    instrucoes: Propõe a designação do júri (membros efetivos e suplentes) e eventual delegação de competências.
+    pesquisa: júri do procedimento designação delegação de competências
+    base_legal: [67, 69]
+    condicao:
+      tipo_procedimento: [ajuste_direto, consulta_previa, concurso_publico, concurso_publico_urgente, concurso_limitado, negociacao, dialogo_concorrencial, parceria_inovacao]
+  - id: gestor
+    titulo: Designação do gestor do contrato
+    instrucoes: Propõe a designação do gestor do contrato e as suas funções.
+    pesquisa: gestor do contrato designação funções
+    base_legal: ["290-A"]
+  - id: cabimento
+    titulo: Cabimento orçamental e compromisso
+    instrucoes: Indica a classificação orçamental, cabimento e, se aplicável, a repartição plurianual de encargos.
+    pesquisa: cabimento compromisso encargos plurianuais
+  - id: proposta
+    titulo: Proposta de decisão
+    instrucoes: Enumera os pontos a aprovar pelo órgão competente (decisão de contratar, escolha do procedimento, peças, júri, gestor, despesa).
+    pesquisa: proposta de deliberação despacho aprovação
+    base_legal: [36, 38, 40]

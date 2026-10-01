@@ -1,0 +1,10 @@
+[server]
+maxUploadSize = 200
+headless = true
+
+[browser]
+# Não enviar estatísticas de utilização para a Streamlit/Snowflake.
+gatherUsageStats = false
+
+[theme]
+base = "light"

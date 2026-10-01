@@ -1,0 +1,112 @@
+id: convite
+nome: Convite
+descricao: Convite à apresentação de propostas (consulta prévia e ajuste direto em regime geral).
+numeracao: artigo
+procedimentos: [ajuste_direto, consulta_previa, acordo_quadro]
+campos_extra:
+  - {id: entidades_convidadas, rotulo: "Entidades convidadas", tipo: textarea}
+  - {id: prazo_propostas, rotulo: "Prazo para apresentação das propostas"}
+  - {id: caucao, rotulo: "Caução (exigida? percentagem)"}
+  - {id: documentos_proposta, rotulo: "Documentos específicos a exigir na proposta", tipo: textarea}
+instrucoes_gerais: |
+  O convite define os termos do procedimento dirigidos às entidades convidadas. Adapta o conteúdo ao
+  procedimento (ajuste direto com uma só entidade convidada; consulta prévia com várias).
+secoes:
+  - id: identificacao
+    titulo: Identificação do procedimento e da entidade adjudicante
+    instrucoes: Identifica o procedimento, a entidade adjudicante e o órgão que tomou a decisão de contratar.
+    pesquisa: convite identificação entidade adjudicante
+    base_legal: [115]
+  - id: objeto
+    titulo: Objeto
+    instrucoes: Identifica o objeto do contrato, o CPV e os lotes, se existirem.
+    pesquisa: objeto do contrato convite
+    base_legal: [115]
+  - id: escolha_procedimento
+    titulo: Escolha do procedimento
+    instrucoes: Indica o fundamento da escolha do procedimento.
+    pesquisa: escolha do procedimento fundamento valor critério material
+    base_legal: [19, 20, 38]
+  - id: pecas
+    titulo: Peças do procedimento
+    instrucoes: Identifica as peças do procedimento e onde podem ser consultadas.
+    pesquisa: peças do procedimento convite caderno de encargos
+    base_legal: [40]
+  - id: esclarecimentos
+    titulo: Esclarecimentos e erros e omissões
+    instrucoes: Regula o pedido e prestação de esclarecimentos e a identificação de erros e omissões.
+    pesquisa: esclarecimentos erros e omissões
+    base_legal: [50]
+  - id: juri
+    titulo: Júri
+    instrucoes: Regula a composição e funcionamento do júri.
+    pesquisa: júri do procedimento
+    base_legal: [67, 69]
+    condicao:
+      tipo_procedimento: [consulta_previa]
+  - id: impedimentos
+    titulo: Impedimentos
+    instrucoes: Remete para os impedimentos legais.
+    pesquisa: impedimentos
+    base_legal: [55]
+  - id: documentos_proposta
+    titulo: Documentos da proposta
+    instrucoes: Enumera os documentos que constituem a proposta.
+    pesquisa: documentos da proposta declaração
+    base_legal: [57]
+  - id: apresentacao
+    titulo: Modo e prazo de apresentação das propostas
+    instrucoes: Regula o modo (plataforma eletrónica ou outro meio admitido) e o prazo de apresentação das propostas.
+    pesquisa: modo de apresentação prazo propostas convite
+    base_legal: [62, 115]
+  - id: manutencao
+    titulo: Prazo de manutenção das propostas
+    instrucoes: Fixa o prazo de manutenção das propostas.
+    pesquisa: prazo de manutenção das propostas
+    base_legal: [65]
+  - id: preco
+    titulo: Preço base e preço anormalmente baixo
+    instrucoes: Indica o preço base e as regras relativas a preço anormalmente baixo.
+    pesquisa: preço base preço anormalmente baixo
+    base_legal: [47, 71]
+  - id: negociacao
+    titulo: Negociação
+    instrucoes: Indica se as propostas são objeto de negociação e, em caso afirmativo, os aspetos a negociar e as formalidades.
+    pesquisa: negociação das propostas ajuste direto consulta prévia
+    base_legal: [115, 118, 120]
+    opcional: true
+  - id: criterio
+    titulo: Análise das propostas e critério de adjudicação
+    instrucoes: Regula a análise das propostas e define o critério de adjudicação, modelo de avaliação e critério de desempate.
+    pesquisa: critério de adjudicação modelo de avaliação desempate
+    base_legal: [70, 74, 75]
+  - id: relatorios
+    titulo: Relatório preliminar, audiência prévia e relatório final
+    instrucoes: Regula a elaboração dos relatórios do júri e a audiência prévia. Se só for convidada uma entidade, adapta em conformidade.
+    pesquisa: relatório preliminar audiência prévia relatório final consulta prévia
+    base_legal: [122, 123, 124, 125]
+  - id: adjudicacao
+    titulo: Adjudicação e notificação
+    instrucoes: Regula a decisão de adjudicação e a sua notificação.
+    pesquisa: adjudicação notificação
+    base_legal: [73, 77]
+  - id: habilitacao
+    titulo: Documentos de habilitação
+    instrucoes: Enumera os documentos de habilitação e o prazo de apresentação.
+    pesquisa: documentos de habilitação
+    base_legal: [81]
+  - id: caucao
+    titulo: Caução
+    instrucoes: Indica se é exigida caução e respetivo regime.
+    pesquisa: caução
+    base_legal: [88, 89]
+    opcional: true
+  - id: contrato
+    titulo: Celebração do contrato
+    instrucoes: Regula a redução a escrito, a minuta e a celebração do contrato.
+    pesquisa: redução do contrato a escrito minuta celebração
+    base_legal: [94, 95, 98]
+  - id: legislacao
+    titulo: Legislação aplicável
+    instrucoes: Indica a legislação aplicável.
+    pesquisa: legislação aplicável

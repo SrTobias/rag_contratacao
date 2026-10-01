@@ -1,0 +1,41 @@
+# Instalação num servidor interno: aplicação + Ollama (LLM e embeddings locais).
+#   docker compose up -d
+#   docker compose exec ollama ollama pull bge-m3
+#   docker compose exec ollama ollama pull qwen2.5:32b   (ou o modelo definido em LLM_MODEL)
+services:
+  app:
+    build: .
+    ports:
+      - "8501:8501"
+    env_file: .env
+    environment:
+      LLM_BASE_URL: http://ollama:11434/v1
+      EMBED_BASE_URL: http://ollama:11434
+      INDEX_DIR: /app/index
+    volumes:
+      - ./index:/app/index
+      - ./templates:/app/templates
+    depends_on:
+      - ollama
+    restart: unless-stopped
+
+  ollama:
+    image: ollama/ollama:latest
+    environment:
+      # O contexto por omissão do Ollama é curto; as peças precisam de ~16k tokens.
+      OLLAMA_CONTEXT_LENGTH: "16384"
+      OLLAMA_KEEP_ALIVE: "30m"
+    volumes:
+      - ollama:/root/.ollama
+    restart: unless-stopped
+    # Servidor com GPU NVIDIA: descomentar.
+    # deploy:
+    #   resources:
+    #     reservations:
+    #       devices:
+    #         - driver: nvidia
+    #           count: all
+    #           capabilities: [gpu]
+
+volumes:
+  ollama:

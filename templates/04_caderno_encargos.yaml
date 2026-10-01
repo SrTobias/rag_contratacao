@@ -1,0 +1,211 @@
+id: caderno_encargos
+nome: Caderno de Encargos
+descricao: Cláusulas jurídicas (Parte I) e especificações técnicas (Parte II) do contrato a celebrar.
+numeracao: clausula
+procedimentos: []
+campos_extra:
+  - {id: obrigacoes_principais, rotulo: "Obrigações principais do adjudicatário / requisitos de execução", tipo: textarea}
+  - {id: condicoes_pagamento, rotulo: "Condições de pagamento (faturação, periodicidade)", tipo: textarea}
+  - {id: local_execucao, rotulo: "Local de entrega / execução"}
+  - {id: penalidades, rotulo: "Penalidades pretendidas", tipo: textarea}
+  - {id: especificacoes_tecnicas, rotulo: "Especificações técnicas (resumo ou texto integral)", tipo: textarea}
+instrucoes_gerais: |
+  O caderno de encargos contém as cláusulas a incluir no contrato a celebrar. Não pode remeter aspetos
+  da execução para a proposta para além dos submetidos à concorrência. Adapta as cláusulas ao tipo de contrato.
+secoes:
+  # ------------------------------------------------------------------ PARTE I
+  - id: objeto
+    parte: "PARTE I — CLÁUSULAS JURÍDICAS"
+    titulo: Objeto
+    instrucoes: Define o objeto do contrato a celebrar, o CPV e os lotes, se existirem.
+    pesquisa: caderno de encargos objeto do contrato
+    base_legal: [42]
+  - id: contrato
+    parte: "PARTE I — CLÁUSULAS JURÍDICAS"
+    titulo: Contrato
+    instrucoes: Indica os documentos que integram o contrato e a ordem de prevalência em caso de divergência.
+    pesquisa: contrato documentos integrantes prevalência
+    base_legal: [96]
+  - id: prazo
+    parte: "PARTE I — CLÁUSULAS JURÍDICAS"
+    titulo: Prazo
+    instrucoes: Fixa o prazo de execução / vigência do contrato, a data de início e eventuais renovações.
+    pesquisa: prazo de vigência do contrato renovação
+    base_legal: [48]
+  - id: obrigacoes_adjudicatario
+    parte: "PARTE I — CLÁUSULAS JURÍDICAS"
+    titulo: Obrigações principais do adjudicatário
+    instrucoes: Enumera as obrigações principais do adjudicatário, adaptadas ao tipo de contrato.
+    pesquisa: obrigações principais do adjudicatário cocontratante
+  - id: obrigacoes_entidade
+    parte: "PARTE I — CLÁUSULAS JURÍDICAS"
+    titulo: Obrigações da entidade adjudicante
+    instrucoes: Enumera as obrigações da entidade adjudicante.
+    pesquisa: obrigações do contraente público
+  - id: entrega
+    parte: "PARTE I — CLÁUSULAS JURÍDICAS"
+    titulo: Local e condições de entrega dos bens
+    instrucoes: Regula o local, prazo, condições de entrega e transferência da propriedade e do risco.
+    pesquisa: entrega dos bens local prazo transferência de propriedade risco
+    condicao:
+      tipo_contrato: [aquisicao_bens, locacao_bens]
+  - id: inspecao
+    parte: "PARTE I — CLÁUSULAS JURÍDICAS"
+    titulo: Inspeção, testes e aceitação
+    instrucoes: Regula a inspeção quantitativa e qualitativa, testes, aceitação e rejeição dos bens.
+    pesquisa: inspeção testes aceitação dos bens defeitos
+    condicao:
+      tipo_contrato: [aquisicao_bens, locacao_bens]
+  - id: garantia
+    parte: "PARTE I — CLÁUSULAS JURÍDICAS"
+    titulo: Garantia técnica
+    instrucoes: Regula o prazo e âmbito da garantia técnica dos bens.
+    pesquisa: garantia técnica dos bens prazo
+    condicao:
+      tipo_contrato: [aquisicao_bens]
+  - id: local_servicos
+    parte: "PARTE I — CLÁUSULAS JURÍDICAS"
+    titulo: Local e condições de prestação dos serviços
+    instrucoes: Regula o local, horários e condições de prestação dos serviços, e níveis de serviço se aplicável.
+    pesquisa: local de prestação dos serviços níveis de serviço
+    condicao:
+      tipo_contrato: [aquisicao_servicos]
+  - id: plano_trabalhos
+    parte: "PARTE I — CLÁUSULAS JURÍDICAS"
+    titulo: Plano de trabalhos
+    instrucoes: Regula o plano de trabalhos, o seu ajustamento e cumprimento.
+    pesquisa: plano de trabalhos empreitada ajustamento
+    base_legal: [361]
+    condicao:
+      tipo_contrato: [empreitada]
+  - id: consignacao
+    parte: "PARTE I — CLÁUSULAS JURÍDICAS"
+    titulo: Consignação da obra
+    instrucoes: Regula a consignação da obra e os respetivos prazos.
+    pesquisa: consignação da obra auto de consignação
+    base_legal: [355, 357, 359]
+    condicao:
+      tipo_contrato: [empreitada]
+  - id: rececao_obra
+    parte: "PARTE I — CLÁUSULAS JURÍDICAS"
+    titulo: Receção provisória e definitiva
+    instrucoes: Regula a receção provisória, o prazo de garantia e a receção definitiva da obra.
+    pesquisa: receção provisória receção definitiva prazo de garantia empreitada
+    base_legal: [394, 397, 398]
+    condicao:
+      tipo_contrato: [empreitada]
+  - id: preco
+    parte: "PARTE I — CLÁUSULAS JURÍDICAS"
+    titulo: Preço contratual
+    instrucoes: Define o preço contratual e o que nele se inclui.
+    pesquisa: preço contratual encargos incluídos
+    base_legal: [97]
+  - id: pagamento
+    parte: "PARTE I — CLÁUSULAS JURÍDICAS"
+    titulo: Condições de pagamento
+    instrucoes: Regula a faturação, os prazos de pagamento e os juros de mora.
+    pesquisa: condições de pagamento prazo de pagamento faturação eletrónica
+    base_legal: [299, 326]
+  - id: revisao_precos
+    parte: "PARTE I — CLÁUSULAS JURÍDICAS"
+    titulo: Revisão de preços
+    instrucoes: Regula a revisão de preços, se aplicável, ou declara a sua não aplicação.
+    pesquisa: revisão de preços fórmula
+    base_legal: [300, 382]
+    opcional: true
+  - id: gestor
+    parte: "PARTE I — CLÁUSULAS JURÍDICAS"
+    titulo: Gestor do contrato
+    instrucoes: Regula a designação e funções do gestor do contrato.
+    pesquisa: gestor do contrato funções
+    base_legal: ["290-A"]
+  - id: sigilo
+    parte: "PARTE I — CLÁUSULAS JURÍDICAS"
+    titulo: Dever de sigilo
+    instrucoes: Regula o dever de sigilo e confidencialidade sobre informação a que o adjudicatário tenha acesso.
+    pesquisa: dever de sigilo confidencialidade
+  - id: dados_pessoais
+    parte: "PARTE I — CLÁUSULAS JURÍDICAS"
+    titulo: Proteção de dados pessoais
+    instrucoes: Regula o tratamento de dados pessoais nos termos do RGPD, se o contrato o implicar (subcontratante, instruções, medidas de segurança).
+    pesquisa: proteção de dados pessoais RGPD subcontratante
+    opcional: true
+  - id: penalidades
+    parte: "PARTE I — CLÁUSULAS JURÍDICAS"
+    titulo: Penalidades contratuais
+    instrucoes: Fixa as penalidades contratuais por incumprimento, respeitando os limites legais.
+    pesquisa: sanções contratuais penalidades limite
+    base_legal: [329]
+  - id: forca_maior
+    parte: "PARTE I — CLÁUSULAS JURÍDICAS"
+    titulo: Força maior
+    instrucoes: Define força maior e os seus efeitos.
+    pesquisa: força maior
+  - id: resolucao_entidade
+    parte: "PARTE I — CLÁUSULAS JURÍDICAS"
+    titulo: Resolução por parte da entidade adjudicante
+    instrucoes: Regula a resolução do contrato pelo contraente público.
+    pesquisa: resolução do contrato pelo contraente público incumprimento
+    base_legal: [333, 334]
+  - id: resolucao_adjudicatario
+    parte: "PARTE I — CLÁUSULAS JURÍDICAS"
+    titulo: Resolução por parte do adjudicatário
+    instrucoes: Regula a resolução do contrato pelo cocontratante.
+    pesquisa: resolução do contrato pelo cocontratante
+    base_legal: [332]
+  - id: caucao
+    parte: "PARTE I — CLÁUSULAS JURÍDICAS"
+    titulo: Caução
+    instrucoes: Regula a caução, a sua execução e liberação.
+    pesquisa: caução execução liberação
+    base_legal: [88, 295, 296]
+    opcional: true
+  - id: subcontratacao
+    parte: "PARTE I — CLÁUSULAS JURÍDICAS"
+    titulo: Subcontratação e cessão da posição contratual
+    instrucoes: Regula a subcontratação e a cessão da posição contratual.
+    pesquisa: subcontratação cessão da posição contratual
+    base_legal: [316, 317, 318, 319]
+  - id: modificacao
+    parte: "PARTE I — CLÁUSULAS JURÍDICAS"
+    titulo: Modificação do contrato
+    instrucoes: Remete para o regime legal de modificação objetiva do contrato.
+    pesquisa: modificação objetiva do contrato fundamentos limites
+    base_legal: [311, 312, 313]
+  - id: seguros
+    parte: "PARTE I — CLÁUSULAS JURÍDICAS"
+    titulo: Seguros
+    instrucoes: Indica os seguros exigidos ao adjudicatário.
+    pesquisa: seguros responsabilidade civil acidentes de trabalho
+    opcional: true
+  - id: comunicacoes
+    parte: "PARTE I — CLÁUSULAS JURÍDICAS"
+    titulo: Comunicações e notificações
+    instrucoes: Regula a forma das comunicações e notificações entre as partes.
+    pesquisa: comunicações notificações entre as partes
+  - id: prazos
+    parte: "PARTE I — CLÁUSULAS JURÍDICAS"
+    titulo: Contagem dos prazos
+    instrucoes: Regula a contagem dos prazos na fase de execução do contrato.
+    pesquisa: contagem dos prazos fase de execução
+    base_legal: [471]
+  - id: foro
+    parte: "PARTE I — CLÁUSULAS JURÍDICAS"
+    titulo: Foro competente
+    instrucoes: Indica o foro competente para dirimir litígios.
+    pesquisa: foro competente tribunal administrativo litígios
+  - id: legislacao
+    parte: "PARTE I — CLÁUSULAS JURÍDICAS"
+    titulo: Legislação aplicável
+    instrucoes: Indica a legislação aplicável ao contrato.
+    pesquisa: legislação aplicável contrato
+  # ------------------------------------------------------------------ PARTE II
+  - id: especificacoes
+    parte: "PARTE II — ESPECIFICAÇÕES TÉCNICAS"
+    titulo: Especificações técnicas
+    instrucoes: |
+      Redige as especificações técnicas com base nos dados fornecidos. Não podem fazer referência a marcas,
+      origens ou processos específicos sem a menção "ou equivalente". O que não tiver sido fornecido fica
+      assinalado como [PREENCHER].
+    pesquisa: especificações técnicas ou equivalente requisitos
+    base_legal: [49]

@@ -1,0 +1,48 @@
+id: relatorio_preliminar
+nome: Relatório Preliminar
+descricao: Relatório preliminar do júri com a análise, exclusões e ordenação das propostas.
+numeracao: seccao
+procedimentos: [consulta_previa, ajuste_direto, concurso_publico, concurso_publico_urgente, concurso_limitado, negociacao, dialogo_concorrencial, parceria_inovacao]
+campos_extra:
+  - {id: membros_juri, rotulo: "Membros do júri presentes", tipo: textarea}
+  - {id: data_reuniao, rotulo: "Data e local da reunião do júri"}
+  - {id: propostas_recebidas, rotulo: "Propostas recebidas (concorrente, data, valor)", tipo: textarea}
+  - {id: analise_juri, rotulo: "Notas do júri: irregularidades, esclarecimentos, motivos de exclusão, pontuações", tipo: textarea}
+instrucoes_gerais: |
+  Redige na primeira pessoa do plural em nome do júri ("o júri deliberou..."). Não inventes concorrentes,
+  valores ou pontuações: usa exclusivamente os dados fornecidos e assinala o resto com [PREENCHER].
+secoes:
+  - id: introducao
+    titulo: Introdução
+    instrucoes: Identifica o procedimento, a decisão de contratar, a composição do júri e a reunião.
+    pesquisa: relatório preliminar júri reunião
+    base_legal: [122, 146]
+  - id: propostas
+    titulo: Propostas apresentadas
+    instrucoes: Lista as propostas apresentadas (apresenta em lista com concorrente e preço).
+    pesquisa: lista de concorrentes propostas apresentadas
+  - id: esclarecimentos
+    titulo: Esclarecimentos e suprimento de irregularidades
+    instrucoes: Descreve os esclarecimentos pedidos e as irregularidades supridas, se existirem.
+    pesquisa: esclarecimentos sobre propostas suprimento irregularidades
+    base_legal: [72]
+    opcional: true
+  - id: analise
+    titulo: Análise das propostas e propostas de exclusão
+    instrucoes: Apresenta a análise das propostas e fundamenta cada proposta de exclusão com a norma aplicável.
+    pesquisa: causas de exclusão das propostas fundamentação
+    base_legal: [70, 146]
+  - id: avaliacao
+    titulo: Avaliação e ordenação das propostas
+    instrucoes: Aplica o critério de adjudicação às propostas admitidas e apresenta a ordenação.
+    pesquisa: avaliação das propostas ordenação pontuação
+    base_legal: [74, 75, 139]
+  - id: conclusao
+    titulo: Conclusão e proposta
+    instrucoes: Enuncia as propostas de exclusão, de admissão, a ordenação e a proposta de adjudicação.
+    pesquisa: proposta de adjudicação ordenação
+  - id: audiencia
+    titulo: Audiência prévia
+    instrucoes: Determina o envio do relatório aos concorrentes para audiência prévia e o prazo de pronúncia.
+    pesquisa: audiência prévia prazo pronúncia
+    base_legal: [123, 147]

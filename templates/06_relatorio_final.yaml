@@ -1,0 +1,44 @@
+id: relatorio_final
+nome: Relatório Final
+descricao: Relatório final do júri após audiência prévia, com a proposta de adjudicação.
+numeracao: seccao
+procedimentos: [consulta_previa, ajuste_direto, concurso_publico, concurso_publico_urgente, concurso_limitado, negociacao, dialogo_concorrencial, parceria_inovacao]
+campos_extra:
+  - {id: membros_juri, rotulo: "Membros do júri presentes", tipo: textarea}
+  - {id: data_reuniao, rotulo: "Data e local da reunião do júri"}
+  - {id: resumo_preliminar, rotulo: "Conclusões do relatório preliminar", tipo: textarea}
+  - {id: pronuncias, rotulo: "Pronúncias recebidas em audiência prévia (resumo)", tipo: textarea}
+  - {id: apreciacao_juri, rotulo: "Posição do júri sobre as pronúncias", tipo: textarea}
+instrucoes_gerais: |
+  Redige em nome do júri. Não inventes pronúncias nem argumentos: usa exclusivamente os dados fornecidos e
+  assinala o resto com [PREENCHER].
+secoes:
+  - id: introducao
+    titulo: Introdução
+    instrucoes: Identifica o procedimento, o júri, a reunião e o objeto do relatório.
+    pesquisa: relatório final júri
+    base_legal: [124, 148]
+  - id: preliminar
+    titulo: Relatório preliminar
+    instrucoes: Resume as conclusões do relatório preliminar.
+    pesquisa: relatório preliminar conclusões
+  - id: audiencia
+    titulo: Audiência prévia
+    instrucoes: Descreve a realização da audiência prévia e as pronúncias recebidas (ou a ausência delas).
+    pesquisa: audiência prévia pronúncias concorrentes
+    base_legal: [123, 147]
+  - id: apreciacao
+    titulo: Apreciação das pronúncias
+    instrucoes: Aprecia fundamentadamente cada pronúncia, com base na posição do júri fornecida.
+    pesquisa: apreciação das observações dos concorrentes
+    opcional: true
+  - id: conclusao
+    titulo: Conclusão e proposta de adjudicação
+    instrucoes: Mantém ou altera as conclusões do relatório preliminar, apresenta a ordenação final e a proposta de adjudicação.
+    pesquisa: proposta de adjudicação ordenação final
+    base_legal: [73, 76, 148]
+  - id: proximos_passos
+    titulo: Documentos de habilitação e caução
+    instrucoes: Propõe a notificação do adjudicatário para apresentação dos documentos de habilitação e da caução, se exigida.
+    pesquisa: notificação da adjudicação documentos de habilitação caução
+    base_legal: [77, 81, 88]
