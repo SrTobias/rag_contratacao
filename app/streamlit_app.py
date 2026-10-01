@@ -265,10 +265,14 @@ def pagina_base() -> None:
                 barra.progress((i + 1) / len(ficheiros))
 
     if resultados_arranque:
-        with st.expander("Indexação automática no arranque (data/publico/manifesto.yaml)"):
+        titulo = "Indexação automática no arranque (data/publico/manifesto.yaml)"
+        with st.expander(titulo, expanded=bool(erros_arranque)):
             for r in resultados_arranque:
                 icone = {"indexado": "✅", "atual": "✔️", "erro": "❌"}.get(r.estado, "")
                 st.markdown(f"{icone} `{r.ficheiro}` — {r.estado} {r.detalhe}")
+            if st.button("Indexar novamente"):
+                arranque.clear()
+                st.rerun()
 
     st.subheader("Documentos indexados")
     fontes = store.listar_fontes()
@@ -297,6 +301,9 @@ if erros_arranque:
 PAGINAS = {"Gerar peça": pagina_gerar, "Consultar": pagina_consultar, "Base documental": pagina_base}
 escolha = st.sidebar.radio("Navegação", list(PAGINAS))
 st.sidebar.divider()
-st.sidebar.caption(f"Modelo: {settings.llm_model}\n\nExcertos indexados: {store.contar()}")
+st.sidebar.caption(
+    f"Modelo: {settings.llm_model}\n\nEmbeddings: {settings.embed_provider} / {settings.embed_model}"
+    f"\n\nExcertos indexados: {store.contar()}"
+)
 st.sidebar.caption("⚠️ O texto gerado é um rascunho e exige revisão jurídica antes de ser utilizado.")
 PAGINAS[escolha]()
