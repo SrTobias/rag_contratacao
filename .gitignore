@@ -1,8 +1,11 @@
 .env
+.streamlit/secrets.toml
 index/
+# Documentos de origem: não versionados, exceto data/publico (só documentos públicos!)
 data/**
 !data/**/
 !data/**/.gitkeep
+!data/publico/**
 __pycache__/
 *.pyc
 .venv/

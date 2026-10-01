@@ -7,8 +7,6 @@ import requests
 
 from .config import Settings
 
-BATCH_SIZE = 32
-
 
 class Embedder:
     def __init__(self, settings: Settings):
@@ -19,7 +17,10 @@ class Embedder:
         if self.provider == "openai_compatible":
             from openai import OpenAI
 
-            self._client = OpenAI(base_url=settings.embed_base_url, api_key=settings.embed_api_key or "none")
+            # Mais tentativas: APIs em plano gratuito limitam pedidos por segundo (erro 429).
+            self._client = OpenAI(
+                base_url=settings.embed_base_url, api_key=settings.embed_api_key or "none", max_retries=8
+            )
         elif self.provider not in ("ollama", "sentence_transformers"):
             raise ValueError(f"EMBED_PROVIDER desconhecido: {self.provider}")
 
@@ -43,9 +44,10 @@ class Embedder:
 
     def embed_documents(self, texts: List[str]) -> List[List[float]]:
         prefix = self.settings.embed_doc_prefix
+        n = self.settings.embed_batch_size
         out: List[List[float]] = []
-        for i in range(0, len(texts), BATCH_SIZE):
-            out.extend(self._embed([prefix + t for t in texts[i : i + BATCH_SIZE]]))
+        for i in range(0, len(texts), n):
+            out.extend(self._embed([prefix + t for t in texts[i : i + n]]))
         return out
 
     def embed_query(self, text: str) -> List[float]:

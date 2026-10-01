@@ -22,7 +22,7 @@ class LLM:
         elif settings.llm_provider == "openai_compatible":
             from openai import OpenAI
 
-            self.client = OpenAI(base_url=settings.llm_base_url, api_key=settings.llm_api_key or "none")
+            self.client = OpenAI(base_url=settings.llm_base_url, api_key=settings.llm_api_key or "none", max_retries=5)
         else:
             raise ValueError(f"LLM_PROVIDER desconhecido: {settings.llm_provider}")
 

@@ -7,6 +7,7 @@ from __future__ import annotations
 
 import hashlib
 import re
+import sys
 import threading
 import unicodedata
 from collections import defaultdict
@@ -75,12 +76,22 @@ def _corresponde(meta: Dict[str, str], filtros: Optional[Filtros]) -> bool:
     return True
 
 
+def _sqlite_recente() -> None:
+    """O Chroma exige SQLite >= 3.35; em Linux com SQLite antigo usa-se o pysqlite3-binary."""
+    try:
+        import pysqlite3  # noqa: F401
+    except ImportError:
+        return
+    sys.modules["sqlite3"] = sys.modules.pop("pysqlite3")
+
+
 def _limpar_meta(meta: Dict[str, Any]) -> Dict[str, Any]:
     return {k: (v if isinstance(v, (str, int, float, bool)) else str(v)) for k, v in meta.items() if v is not None}
 
 
 class Store:
     def __init__(self, index_dir: Path, embedder: Embedder):
+        _sqlite_recente()
         import chromadb
         from chromadb.config import Settings as ChromaSettings
 
@@ -147,6 +158,11 @@ class Store:
                 }
             agregado[src]["excertos"] += 1
         return sorted(agregado.values(), key=lambda d: (d["fonte"], d["source"]))
+
+    def hashes_por_fonte(self) -> Dict[str, str]:
+        """source -> hash do ficheiro de origem (para documentos indexados com hash)."""
+        res = self.col.get(where={"hash": {"$ne": ""}}, include=["metadatas"])
+        return {m["source"]: m["hash"] for m in res["metadatas"] if m.get("hash")}
 
     def obter_artigos(self, artigos: List[str], filtros: Optional[Filtros] = None) -> List[Hit]:
         """Obtém diretamente artigos pelo número (ex.: ['70', '46-A']), sem pesquisa semântica."""

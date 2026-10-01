@@ -40,8 +40,9 @@ Pedido ──► por secção: artigos do template (diretos) + pesquisa híbrida
 - O LLM corre num servidor interno (Ollama/vLLM). Em alternativa, pode usar-se Azure OpenAI numa região
   UE com retenção de dados desativada, decisão que cabe à organização e ao seu encarregado de proteção
   de dados (EPD/DPO).
-- **Não usar o Streamlit Community Cloud** (alojamento gratuito da Streamlit): os documentos ficariam em
-  servidores externos. A aplicação deve ser instalada num servidor da organização (ver Docker abaixo).
+- **Streamlit Community Cloud apenas para testes com documentos públicos.** Os documentos ficariam em
+  servidores externos. Em produção, a aplicação deve ser instalada num servidor da organização (ver
+  Docker abaixo).
 - Definir `APP_PASSWORD` e, de preferência, disponibilizar a aplicação apenas na rede interna ou por VPN.
 
 ## Instalação no servidor (Docker)
@@ -57,6 +58,18 @@ A aplicação fica disponível em `http://<servidor>:8501`.
 
 **Requisitos orientativos para o LLM:** modelos de 7–8B parâmetros funcionam para testes mas têm qualidade
 jurídica limitada. Para produção recomenda-se 24–32B (≈ 24 GB de VRAM) ou 70B (≈ 48 GB de VRAM).
+
+## Testes no Streamlit Community Cloud (só documentos públicos)
+
+1. Colocar os documentos **públicos** em `data/publico/` e registá-los em `data/publico/manifesto.yaml`.
+   São indexados automaticamente no arranque; só os ficheiros novos ou alterados são reindexados.
+2. Em share.streamlit.io: **Create app**, com o repositório, a branch `main` e o ficheiro
+   `app/streamlit_app.py`. Em Advanced settings, escolher Python 3.11 e colar os Secrets a partir de
+   [`.streamlit/secrets.toml.example`](.streamlit/secrets.toml.example) (LLM e embeddings via API Mistral).
+3. Limitar o acesso nas definições da aplicação (Sharing) e definir `APP_PASSWORD`.
+
+O disco do Streamlit Cloud é efémero: documentos carregados pela página **Base documental** perdem-se
+quando a aplicação reinicia. Os documentos de `data/publico/` são reindexados automaticamente.
 
 ## Desenvolvimento local
 

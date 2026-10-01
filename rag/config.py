@@ -41,6 +41,7 @@ class Settings:
     embed_api_key: str
     embed_query_prefix: str
     embed_doc_prefix: str
+    embed_batch_size: int
 
     # Pesquisa
     top_k_legislacao: int
@@ -68,6 +69,7 @@ class Settings:
             embed_api_key=_get("EMBED_API_KEY", ""),
             embed_query_prefix=_get("EMBED_QUERY_PREFIX", ""),
             embed_doc_prefix=_get("EMBED_DOC_PREFIX", ""),
+            embed_batch_size=int(_get("EMBED_BATCH_SIZE", "32")),
             top_k_legislacao=int(_get("TOP_K_LEGISLACAO", "6")),
             top_k_exemplos=int(_get("TOP_K_EXEMPLOS", "4")),
             max_context_chars=int(_get("MAX_CONTEXT_CHARS", "24000")),

@@ -10,6 +10,7 @@ import streamlit as st
 
 sys.path.insert(0, str(Path(__file__).resolve().parent.parent))
 
+from rag.bootstrap import Resultado, indexar_manifesto  # noqa: E402
 from rag.config import Settings  # noqa: E402
 from rag.embeddings import Embedder  # noqa: E402
 from rag.export_docx import exportar_docx  # noqa: E402
@@ -35,6 +36,15 @@ def servicos():
 
 settings, store, llm = servicos()
 templates = carregar_templates(settings.templates_dir)
+
+
+@st.cache_resource(show_spinner="A indexar os documentos de data/publico (só no arranque)...")
+def arranque() -> List[Resultado]:
+    """Indexa uma vez por processo os documentos do manifesto (o disco pode ser efémero)."""
+    try:
+        return indexar_manifesto(store, settings.data_dir / "publico")
+    except Exception as e:  # noqa: BLE001 - a aplicação deve abrir mesmo que falhe
+        return [Resultado("manifesto.yaml", "erro", str(e))]
 
 
 def autenticado() -> bool:
@@ -254,6 +264,12 @@ def pagina_base() -> None:
                     st.error(f"{f.name}: {e}")
                 barra.progress((i + 1) / len(ficheiros))
 
+    if resultados_arranque:
+        with st.expander("Indexação automática no arranque (data/publico/manifesto.yaml)"):
+            for r in resultados_arranque:
+                icone = {"indexado": "✅", "atual": "✔️", "erro": "❌"}.get(r.estado, "")
+                st.markdown(f"{icone} `{r.ficheiro}` — {r.estado} {r.detalhe}")
+
     st.subheader("Documentos indexados")
     fontes = store.listar_fontes()
     if not fontes:
@@ -272,6 +288,11 @@ def pagina_base() -> None:
 
 if not autenticado():
     st.stop()
+
+resultados_arranque = arranque()
+erros_arranque = [r for r in resultados_arranque if r.estado == "erro"]
+if erros_arranque:
+    st.sidebar.error(f"{len(erros_arranque)} documento(s) de data/publico não indexado(s). Ver «Base documental».")
 
 PAGINAS = {"Gerar peça": pagina_gerar, "Consultar": pagina_consultar, "Base documental": pagina_base}
 escolha = st.sidebar.radio("Navegação", list(PAGINAS))

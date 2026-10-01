@@ -1,0 +1,24 @@
+# Documentos PÚBLICOS indexados automaticamente no arranque da aplicação.
+#
+# ATENÇÃO: esta pasta é enviada para o GitHub. Colocar aqui APENAS documentos públicos
+# (legislação, orientações publicadas, peças de procedimentos já publicados).
+# Peças internas/confidenciais NUNCA devem ser colocadas nesta pasta.
+#
+# Campos: ficheiro (relativo a esta pasta), fonte (legislacao | orientacao | peca)
+#   legislação: diploma (usar "CCP" para o Código dos Contratos Públicos)
+#   peças:      tipo_peca, tipo_procedimento, tipo_contrato, ano
+#   opcional:   titulo_doc
+#
+# Exemplos (retirar o "#" depois de colocar os ficheiros nas pastas):
+#
+# - ficheiro: legislacao/CCP_consolidado.pdf
+#   fonte: legislacao
+#   diploma: CCP
+#
+# - ficheiro: pecas/caderno_encargos_limpeza_2024.pdf
+#   fonte: peca
+#   tipo_peca: caderno_encargos
+#   tipo_procedimento: concurso_publico
+#   tipo_contrato: aquisicao_servicos
+#   ano: "2024"
+[]

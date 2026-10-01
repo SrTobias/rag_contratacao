@@ -7,5 +7,7 @@ python-docx>=1.1
 rank-bm25>=0.2.2
 pyyaml>=6.0
 python-dotenv>=1.0
+# SQLite recente para o Chroma em servidores Linux com SQLite antigo (ex.: Streamlit Cloud)
+pysqlite3-binary; sys_platform == "linux"
 # Opcional: embeddings locais sem Ollama (EMBED_PROVIDER=sentence_transformers)
 # sentence-transformers>=3.0
