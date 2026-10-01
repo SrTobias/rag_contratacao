@@ -91,7 +91,7 @@ secoes:
     titulo: Receção provisória e definitiva
     instrucoes: Regula a receção provisória, o prazo de garantia e a receção definitiva da obra.
     pesquisa: receção provisória receção definitiva prazo de garantia empreitada
-    base_legal: [394, 397, 398]
+    base_legal: [394, 395, 397, 398]
     condicao:
       tipo_contrato: [empreitada]
   - id: preco
@@ -165,7 +165,7 @@ secoes:
     titulo: Subcontratação e cessão da posição contratual
     instrucoes: Regula a subcontratação e a cessão da posição contratual.
     pesquisa: subcontratação cessão da posição contratual
-    base_legal: [316, 317, 318, 319]
+    base_legal: [316, 317, 318]
   - id: modificacao
     parte: "PARTE I — CLÁUSULAS JURÍDICAS"
     titulo: Modificação do contrato

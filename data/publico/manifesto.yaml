@@ -11,9 +11,9 @@
 #
 # Exemplos (retirar o "#" depois de colocar os ficheiros nas pastas):
 #
-# - ficheiro: legislacao/CCP_consolidado.pdf
-#   fonte: legislacao
-#   diploma: CCP
+- ficheiro: legislacao/CCP_consolidado.pdf
+  fonte: legislacao
+  diploma: CCP
 #
 # - ficheiro: pecas/caderno_encargos_limpeza_2024.pdf
 #   fonte: peca
@@ -21,4 +21,4 @@
 #   tipo_procedimento: concurso_publico
 #   tipo_contrato: aquisicao_servicos
 #   ano: "2024"
-[]
+

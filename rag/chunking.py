@@ -31,6 +31,13 @@ _ESTRUTURA_RE = re.compile(
 )
 _NIVEIS = ["PARTE", "TITULO", "CAPITULO", "SECCAO", "SUBSECCAO"]
 _NUMERO_RE = re.compile(r"^\d+\s*[-–—]\s")
+_ANEXO_RE = re.compile(r"^Anexo\s+([IVXLC]+|[ÚU]nico)$", re.I)
+# Histórico de alterações das versões consolidadas do DR ("Alterado pelo/a Artigo 21.º do/a Lei n.º 30/2021 ...")
+_HISTORICO_RE = re.compile(r"^(Alterad|Aditad|Retificad|Rectificad|Revogad|Republicad)[oa] pel[oa]/a\s", re.I)
+# Revogação do artigo inteiro (em maiúsculas no DR): mantém-se a indicação de que está revogado.
+_REVOGACAO_RE = re.compile(r"^REVOGAD[OA] pel[oa]/a\s")
+# Linhas do índice inicial ("Artigo 1.º Aprovação", "Anexo I Modelo de declaração ALTERADO")
+_INDICE_RE = re.compile(r"^(Artigo\s+\d+\.?\s*º?(-[A-Z])?|Anexo(\s+[IVXLC]+)?)\s+\S")
 
 
 def _nivel(palavra: str) -> str:
@@ -60,32 +67,53 @@ def _proxima_linha(linhas: List[str], i: int) -> Tuple[Optional[str], int]:
     return (linhas[j].strip(), j) if j < len(linhas) else (None, j)
 
 
+@dataclass
+class _Unidade:
+    artigo: str  # '70', '46-A'; vazio nos anexos
+    rotulo: str  # 'Artigo 70.º', 'Anexo I'
+    epigrafe: str
+    estrutura: str
+    corpo: List[str] = field(default_factory=list)
+
+
 def chunk_legislacao(text: str, diploma: str, base_meta: Optional[Dict[str, str]] = None) -> List[Chunk]:
+    """Divide legislação por artigos e anexos.
+
+    Em versões consolidadas (ex.: Diário da República), o diploma que aprova um código tem numeração
+    própria (artigos 1.º a 18.º do DL 18/2008) antes do código em anexo (artigos 1.º a 476.º do CCP).
+    Quando a numeração recomeça no artigo 1.º, os artigos anteriores ficam com o diploma
+    "<diploma> — diploma preambular", para não se confundirem com os do código.
+    """
     base_meta = dict(base_meta or {})
-    linhas = text.split("\n")
+    linhas = [
+        "(Artigo revogado.)" if _REVOGACAO_RE.match(l.strip()) else l
+        for l in text.split("\n")
+        if _REVOGACAO_RE.match(l.strip()) or not _HISTORICO_RE.match(l.strip())
+    ]
     estrutura: Dict[str, str] = {}
-    artigos: List[Tuple[str, str, str, List[str]]] = []  # (artigo, epígrafe, estrutura, corpo)
+    unidades: List[_Unidade] = []
     preambulo: List[str] = []
-    atual: Optional[Tuple[str, str, str, List[str]]] = None
+    atual: Optional[_Unidade] = None
 
     i = 0
     while i < len(linhas):
         linha = linhas[i].strip()
         m_art = _ARTIGO_RE.match(linha)
-        m_est = _ESTRUTURA_RE.match(linha) if not m_art else None
-        if m_art:
+        m_anx = _ANEXO_RE.match(linha) if not m_art else None
+        m_est = _ESTRUTURA_RE.match(linha) if not (m_art or m_anx) else None
+        if m_art or m_anx:
             epigrafe, j = _proxima_linha(linhas, i)
             if epigrafe and len(epigrafe) < 160 and not _NUMERO_RE.match(epigrafe) and not _ARTIGO_RE.match(epigrafe):
                 i = j
             else:
                 epigrafe = ""
-            atual = (
-                normalizar_artigo(m_art.group(1), m_art.group(2)),
-                epigrafe,
-                " > ".join(v for v in estrutura.values() if v),
-                [],
-            )
-            artigos.append(atual)
+            local = " > ".join(v for v in estrutura.values() if v)
+            if m_art:
+                artigo = normalizar_artigo(m_art.group(1), m_art.group(2))
+                atual = _Unidade(artigo, f"Artigo {rotulo_artigo(artigo)}", epigrafe, local)
+            else:
+                atual = _Unidade("", f"Anexo {m_anx.group(1).upper()}", epigrafe, local)
+            unidades.append(atual)
         elif m_est:
             nivel = _nivel(m_est.group(1))
             nome, j = _proxima_linha(linhas, i)
@@ -98,10 +126,13 @@ def chunk_legislacao(text: str, diploma: str, base_meta: Optional[Dict[str, str]
             estrutura = {k: v for k, v in estrutura.items() if k in _NIVEIS and _NIVEIS.index(k) < idx}
             estrutura[nivel] = designacao
         elif atual is not None:
-            atual[3].append(linhas[i])
-        else:
+            atual.corpo.append(linhas[i])
+        elif not _INDICE_RE.match(linha):  # o índice inicial não interessa
             preambulo.append(linhas[i])
         i += 1
+
+    # Recomeço da numeração: o que vem antes do último "Artigo 1.º" pertence ao diploma preambular.
+    inicio_codigo = max((n for n, u in enumerate(unidades) if u.artigo == "1"), default=0)
 
     chunks: List[Chunk] = []
     texto_preambulo = "\n".join(preambulo).strip()
@@ -110,23 +141,23 @@ def chunk_legislacao(text: str, diploma: str, base_meta: Optional[Dict[str, str]
         for parte in _dividir_longo(texto_preambulo):
             chunks.append(Chunk(f"{diploma} — Preâmbulo\n\n{parte}", dict(meta)))
 
-    for artigo, epigrafe, local, corpo in artigos:
-        corpo_txt = "\n".join(corpo).strip()
+    for n_unidade, u in enumerate(unidades):
+        corpo_txt = "\n".join(u.corpo).strip()
         if not corpo_txt:
             continue
-        cabecalho = f"{diploma} — Artigo {rotulo_artigo(artigo)}" + (f" ({epigrafe})" if epigrafe else "")
+        nome_diploma = diploma if n_unidade >= inicio_codigo else f"{diploma} — diploma preambular"
+        cabecalho = f"{nome_diploma} — {u.rotulo}" + (f" ({u.epigrafe})" if u.epigrafe else "")
         meta = {
             **base_meta,
-            "diploma": diploma,
-            "artigo": artigo,
-            "epigrafe": epigrafe,
-            "estrutura": local,
-            "seccao": f"Artigo {rotulo_artigo(artigo)}" + (f" — {epigrafe}" if epigrafe else ""),
+            "diploma": nome_diploma,
+            "artigo": u.artigo,
+            "epigrafe": u.epigrafe,
+            "estrutura": u.estrutura,
+            "seccao": u.rotulo + (f" — {u.epigrafe}" if u.epigrafe else ""),
         }
-        partes = _dividir_por_numeros(corpo_txt)
-        for n, parte in enumerate(partes):
+        for n, parte in enumerate(_dividir_por_numeros(corpo_txt)):
             sufixo = " (cont.)" if n else ""
-            chunks.append(Chunk(f"{cabecalho}{sufixo}\n{local}\n\n{parte}".replace("\n\n\n", "\n\n"), dict(meta)))
+            chunks.append(Chunk(f"{cabecalho}{sufixo}\n{u.estrutura}\n\n{parte}".replace("\n\n\n", "\n\n"), dict(meta)))
     return chunks
 
 

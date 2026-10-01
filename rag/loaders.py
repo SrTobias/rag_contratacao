@@ -44,20 +44,35 @@ def _load_pdf(data: bytes) -> str:
     return "\n\n".join(_remover_cabecalhos_rodapes(paginas))
 
 
+_ARESTAS = 3  # linhas no topo e no fundo de cada página onde se procuram cabeçalhos/rodapés
+
+
+def _chave_rodape(linha: str) -> str:
+    """Normaliza números para que 'Pág. 31 de 235' e 'Pág. 32 de 235' contem como a mesma linha."""
+    return re.sub(r"\d+", "#", re.sub(r"\s+", " ", linha.replace("\xa0", " ")).strip())
+
+
 def _remover_cabecalhos_rodapes(paginas: List[str]) -> List[str]:
     """Remove linhas curtas que se repetem no topo/fundo da maioria das páginas."""
     if len(paginas) < 4:
         return paginas
     contagem: Counter = Counter()
     for pagina in paginas:
-        linhas = [l.strip() for l in pagina.split("\n") if l.strip()]
-        for linha in set(linhas[:2] + linhas[-2:]):
-            if len(linha) < 120:
-                contagem[linha] += 1
+        linhas = [l for l in pagina.split("\n") if l.strip()]
+        for linha in set(linhas[:_ARESTAS] + linhas[-_ARESTAS:]):
+            if len(linha.strip()) < 120:
+                contagem[_chave_rodape(linha)] += 1
     repetidas = {l for l, n in contagem.items() if n >= len(paginas) * 0.5}
     if not repetidas:
         return paginas
-    return ["\n".join(l for l in p.split("\n") if l.strip() not in repetidas) for p in paginas]
+
+    def limpar(pagina: str) -> str:
+        linhas = pagina.split("\n")
+        idx = [i for i, l in enumerate(linhas) if l.strip()]
+        arestas = set(idx[:_ARESTAS] + idx[-_ARESTAS:])
+        return "\n".join(l for i, l in enumerate(linhas) if not (i in arestas and _chave_rodape(l) in repetidas))
+
+    return [limpar(p) for p in paginas]
 
 
 def _load_docx(data: bytes) -> str:

@@ -79,3 +79,50 @@ def test_peca_dividida_por_clausulas():
     assert seccoes == ["CADERNO DE ENCARGOS / Cláusula 1.ª — Objeto", "Cláusula 2.ª – Prazo"]
     assert all(c.metadata["fonte"] == "peca" for c in chunks)
     assert all(c.text.startswith("[CE limpeza]") for c in chunks)
+
+
+CONSOLIDADO = """Índice
+Artigo 1.º Aprovação
+Anexo I Modelo de declaração ALTERADO
+O presente decreto-lei aprova o Código.
+Artigo 1.º
+Aprovação
+É aprovado o Código dos Contratos Públicos.
+Alterado pelo/a Artigo 2.º do/a Decreto-Lei n.º 1/2020 - Diário da República n.º 1/2020, Série I
+Anexo
+CÓDIGO DOS CONTRATOS PÚBLICOS
+Parte I
+Âmbito de aplicação
+Artigo 1.º
+Âmbito
+1 - O presente Código estabelece a disciplina aplicável à contratação pública.
+Retificado pelo/a Declaração de Retificação n.º 42/2017 - Diário da República
+Artigo 2.º
+Revogado
+REVOGADO pelo/a Artigo 8.º do/a Decreto-Lei n.º 177/2026 - Diário da República
+Anexo I
+Modelo de declaração
+1 - ... (nome) declara ...
+"""
+
+
+def test_consolidado_dr_separa_diploma_preambular_historico_e_anexos():
+    chunks = chunk_legislacao(normalizar(CONSOLIDADO), "CCP", {"fonte": "legislacao"})
+    por_seccao = {(c.metadata["diploma"], c.metadata["seccao"]): c for c in chunks}
+    assert ("CCP — diploma preambular", "Artigo 1.º — Aprovação") in por_seccao
+    assert ("CCP", "Artigo 1.º — Âmbito") in por_seccao
+    assert ("CCP", "Anexo I — Modelo de declaração") in por_seccao
+    assert "(Artigo revogado.)" in por_seccao[("CCP", "Artigo 2.º — Revogado")].text
+    assert not any("pelo/a" in c.text for c in chunks)
+    preambulo = " ".join(c.text for c in chunks if c.metadata["seccao"] == "Preâmbulo")
+    assert "aprova o Código" in preambulo and "Artigo 1.º Aprovação" not in preambulo
+
+
+def test_rodapes_com_numero_de_pagina_sao_removidos():
+    from rag.loaders import _remover_cabecalhos_rodapes
+
+    corpo = ["Artigo {}.º", "Objeto", "1 - Texto sobre {}", "a) alínea", "Prazo de {} dias", "Outro", "Mais", "Fim", "X"]
+    paginas = [f"{corpo[i].format(i)}\nconteúdo {chr(97 + i)}\nCCP - Código\nLEGISLAÇÃO\nPág. {i} de 9" for i in range(9)]
+    limpas = _remover_cabecalhos_rodapes(paginas)
+    assert all("CCP - Código" not in p and "Pág." not in p and "LEGISLAÇÃO" not in p for p in limpas)
+    assert all(corpo[i].format(i) in p for i, p in enumerate(limpas))
